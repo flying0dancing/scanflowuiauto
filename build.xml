@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<project name="ScanFlowAutoInstall" default="auto" basedir=".">
+    <!-- <property name="buildUrl" value="http://10.196.98.34/view/ENVISTA/job/ScanFlow%20Daily%20-%20Envista/lastSuccessfulBuild"/> -->
+    <property name="buildUrl" value="http://10.196.98.34/view/ENVISTA/job/ScanFlow%20Release%20-%20Envista/lastSuccessfulBuild"/>
+    <target name="download_api_xml">
+        <get src="${buildUrl}/api/xml?tree=artifacts[fileName,relativePath]" dest="api.xml"/>
+    </target>
+    <target name="parse_msix" depends="download_api_xml">
+        <exec executable="python" failonerror="true" outputproperty="parse_msix.out" errorproperty="parse_msix.err">
+            <arg value="parse_msix_url.py"/>
+        </exec>
+        <echo>parse_msix.out: ${parse_msix.out}</echo>
+        <echo>parse_msix.err: ${parse_msix.err}</echo>
+    </target>
+    <target name="download_msix" depends="parse_msix">
+        <get src="${buildUrl}/artifact/${parse_msix.out}" dest="scanflow.msix"/>
+    </target>
+	
+    <target name="install_msix">
+        <exec executable="powershell">
+            <arg value="Add-AppxPackage"/>
+            <arg value="build/scanflow.msix"/>
+        </exec>
+    </target>
+    <target name="start_mt">
+        <exec executable="workspace/start_maintenance_tool.exe"/>
+    </target>
+    <property name="toolConfig" value="C:\ProgramData\DEXIS IS\ScanFlow\maintenance_tool.ini"/>
+    <target name="config_install">
+        <echo file="${toolConfig}" append="false" message="[root]${line.separator}runMode=AutoInstall"/>
+        <exec executable="workspace/start_maintenance_tool.exe"/>
+    </target>
+    <target name="config_uninstall">
+        <echo file="${toolConfig}" append="false" message="[root]${line.separator}runMode=AutoUninstall"/>
+        <exec executable="workspace/start_maintenance_tool.exe"/>
+    </target>
+    <target name="start_install" depends="config_install"/>
+    <target name="start_uninstall" depends="config_uninstall"/>
+    <target name="auto" depends="start_uninstall,install_msix,start_install"/>
+</project>
