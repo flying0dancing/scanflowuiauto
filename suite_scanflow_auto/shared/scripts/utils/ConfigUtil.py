@@ -17,6 +17,14 @@ def getTestDataPool():
     config=getConfig()
     return config['test']['test_source_path']
 
+def getTestConfigPool():
+    config=getConfig()
+    return config['test']['test_config_path']
+
+def getTestMode():
+    config=getConfig()
+    return config['test']['test_mode']
+
 def getScanFlowRoot():
     config=getConfig()
     return config['product']['ScanFlow_Root']
@@ -48,6 +56,15 @@ def getTools_Import_Scanview_Impress():
 def getTools_Import_Refineview():
     config=getConfig()
     return config['test']['tools_import_refineview']
+
+def getTestConfig(testName,suffix):
+    tconfig=''
+    config=getConfig()
+    if config['test']['test_mode']=='debug':
+        tconfig='inputdata.tsv'
+    else:
+        tconfig=config['test']['test_config_path']+testName+suffix
+    return tconfig
 if __name__=='__main__':
     #print(str(sys.argv))
     #inputfile=r'C:\ProgramData\TW\AcqAltair\log\acqaltair_20220712.csv'

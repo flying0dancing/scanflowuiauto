@@ -18,8 +18,9 @@ def main():
     source(findFile("scripts","Common.py"))
     get_free_space_mb(ConfigUtil.getScanFlowRoot())
     launchStr=ConfigUtil.getScanFlowLaunchStrByCmd()
-    
-    for record in testData.dataset("inputdata.tsv"):
+    tName=FileUtil.getParentFolder(__file__)
+    test.log(tName)
+    for record in testData.dataset(ConfigUtil.getTestConfig(tName,'.tsv')):
         testname=testData.field(record, "testName")
         filename=testData.field(record, "cszxName")
         filename=ConfigUtil.getTestDataPool()+filename
@@ -28,7 +29,7 @@ def main():
         if skipFlag.lower()=='y':
             continue
         test.log("%s %s" % (filename, refine_type))
-        test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+testname+'\\'
+        test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+tName+'\\'+testname+'\\'
         scanflow_log=ConfigUtil.getScanFlowLog()
         test_before(test_log_folder,scanflow_log)
         importData_refine_export_save_send(launchStr,filename,refine_type.lower(),test_log_folder)

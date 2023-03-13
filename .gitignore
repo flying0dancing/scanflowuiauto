@@ -55,3 +55,6 @@ Thumbs.db
 *.mov
 *.wmv
 
+# test data
+/testdata
+

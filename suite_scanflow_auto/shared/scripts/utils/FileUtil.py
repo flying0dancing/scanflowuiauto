@@ -173,3 +173,8 @@ if __name__=='__main__':
     #print(tail(inputfile, 30))
     flag=existInFileContentByStr(inputfile, 'Save Scan Data, the result is OK.',300)
     print(flag)
+    
+def getParentFolder(filePath):
+    parentFolder=os.path.dirname(os.path.abspath(filePath))#__file__
+    basename=os.path.basename(parentFolder)
+    return basename
