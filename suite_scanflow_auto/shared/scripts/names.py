@@ -1,6 +1,7 @@
 # encoding: UTF-8
 from utils import ConfigUtil
 scanFlow_version=ConfigUtil.getScanFlowVersion()
+oldVersions=['1.0.8.3']
 #Main window and workspace
 mainWindow_MainWindow = {"name": "MainWindow", "type": "MainWindow", "visible": 1}
 mainWindow_workspace_WorkSpace = {"name": "workspace", "type": "WorkSpace", "visible": 1, "window": mainWindow_MainWindow}
@@ -95,9 +96,10 @@ btn_box_No_QPushButton = {"container": btn_frame_btn_box_CsdDialogButtonBox, "te
 #oK_StyleButton = {"checkable": True, "container": o_QtQuickWidget, "text": "OK, got it", "type": "StyleButton", "unnamed": 1, "visible": True}
 
 def setCover_ok_btn():
-    oK_StyleButton = {"checkable": True, "container": o_QmlWidget, "text": "OK, got it", "type": "StyleButton", "unnamed": 1, "visible": True}
-    if scanFlow_version in ['1.0.8.3', '1.0.9.1']:
-        oK_StyleButton = {"checkable": True, "container": o_QmlWidget, "text": "OK, got it.", "type": "DialogButton", "unnamed": 1, "visible": True}
+    oK_StyleButton = {"checkable": True, "container": o_QmlWidget, "text": "OK, got it.", "type": "DialogButton", "unnamed": 1, "visible": True}
+    
+    if scanFlow_version in ['1.0.7.3']:
+        oK_StyleButton = {"checkable": True, "container": o_QmlWidget, "text": "OK, got it", "type": "StyleButton", "unnamed": 1, "visible": True}
     return oK_StyleButton
 oK_StyleButton=setCover_ok_btn()
 #BallonInfoLabel
@@ -269,39 +271,39 @@ button_list_export_share_Item = {"container": button_list_ListView, "index": 4, 
 #export dialog - bottom buttons on each page
 
 def set_cancel_DialogButton():
-    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_cancel_btn", "text": "Cancel", "type": "DialogButton", "unnamed": 1}
-    if scanFlow_version=='1.0.9.1':
-        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_cancel", "text": "Cancel", "type": "DialogButton", "visible": True}
+    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_cancel", "text": "Cancel", "type": "DialogButton", "visible": True}
+    if scanFlow_version in oldVersions:
+        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_cancel_btn", "text": "Cancel", "type": "DialogButton", "unnamed": 1}
     return tmpButton
 def set_send_DialogButton():
-    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_send_btn", "text": "Send", "type": "DialogButton", "unnamed": 1}
-    if scanFlow_version=='1.0.9.1':
-        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_send", "text": "Send", "type": "DialogButton", "visible": True}
+    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_send", "text": "Send", "type": "DialogButton", "visible": True}
+    if scanFlow_version in oldVersions:
+        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_send_btn", "text": "Send", "type": "DialogButton", "unnamed": 1}
     return tmpButton
 def set_open_DialogButton():
-    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_open_btn", "text": "Open", "type": "DialogButton", "unnamed": 1}
-    if scanFlow_version=='1.0.9.1':
-        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_open", "text": "Open", "type": "DialogButton", "visible": True}
+    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_open", "text": "Open", "type": "DialogButton", "visible": True}
+    if scanFlow_version in oldVersions: 
+        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_open_btn", "text": "Open", "type": "DialogButton", "unnamed": 1}
     return tmpButton
 def set_export_DialogButton():
-    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_export_btn", "text": "Export", "type": "DialogButton", "unnamed": 1}
-    if scanFlow_version=='1.0.9.1':
-        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_export", "text": "Export", "type": "DialogButton", "visible": True}
+    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_export", "text": "Export", "type": "DialogButton", "visible": True}
+    if scanFlow_version in oldVersions:
+        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_export_btn", "text": "Export", "type": "DialogButton", "unnamed": 1}
     return tmpButton
 def set_save_DialogButton():
-    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_save_btn", "text": "Save", "type": "DialogButton", "unnamed": 1, "visible": True}
-    if scanFlow_version=='1.0.9.1':
-        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_save", "text": "Save", "type": "DialogButton", "visible": True}
+    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_save", "text": "Save", "type": "DialogButton", "visible": True}
+    if scanFlow_version in oldVersions:
+        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_save_btn", "text": "Save", "type": "DialogButton", "unnamed": 1, "visible": True}
     return tmpButton
 def set_save_and_Exit_DialogButton():
-    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_save_and_exit_btn", "text": "Save and Exit", "type": "DialogButton", "unnamed": 1}
-    if scanFlow_version=='1.0.9.1':
-        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_save_exit", "text": "Save and Exit", "type": "DialogButton", "visible": True}
+    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_save_exit", "text": "Save and Exit", "type": "DialogButton", "visible": True}
+    if scanFlow_version in oldVersions:
+        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_save_and_exit_btn", "text": "Save and Exit", "type": "DialogButton", "unnamed": 1}
     return tmpButton
 def set_mail_it_DialogButton():
-    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_share_btn", "text": "Mail it", "type": "DialogButton", "unnamed": 1}
-    if scanFlow_version=='1.0.9.1':
-        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_mail", "text": "Mail it", "type": "DialogButton", "visible": True}
+    tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "objectName": "export_btn_mail", "text": "Mail it", "type": "DialogButton", "visible": True}
+    if scanFlow_version in oldVersions:
+        tmpButton = {"checkable": False, "container": mainWindow_QmlWidget, "id": "id_share_btn", "text": "Mail it", "type": "DialogButton", "unnamed": 1}
     return tmpButton
 cancel_DialogButton = set_cancel_DialogButton()
 send_DialogButton = set_send_DialogButton()
