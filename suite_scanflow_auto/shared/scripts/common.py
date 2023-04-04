@@ -21,7 +21,7 @@ def get_free_space_mb(folerpath):
     
 def exitScanFlowNormally():
     scanflow_log=ConfigUtil.getScanFlowLog()      
-    return FileUtil.existInFileContentByStr(scanflow_log,'Application exit normally',10)
+    return FileUtil.existInFileContentByStr(scanflow_log,'Application exit normally',15)
 #deprecated
 def tool_status(locatorFileName,testScenario):
     for record in testData.dataset(locatorFileName):
