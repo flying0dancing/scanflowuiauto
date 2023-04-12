@@ -45,5 +45,5 @@ def revFolder(path,keywordsList,archiveFiles):
 
 if __name__=='__main__':
     print(str(sys.argv))
-    inputFile=r'C:\Users\SQE\AppData\Roaming\froglogic\Squish\ver1\server.ini'
+    inputFile=r'%APPDATA%\froglogic\Squish\ver1\server.ini'
     main(inputFile)
