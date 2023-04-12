@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import names
-from lib2to3.fixes.fix_asserts import NAMES
 
 #abstract base
 base_message=names.o_MessageDialog
@@ -25,7 +24,9 @@ cover_import_text=names.select_a_folder_in_which_to_import_the_data_file_File_na
 cover_import_ok=names.select_a_folder_in_which_to_import_the_data_file_Open_Button
 cover_import_cancel=names.select_a_folder_in_which_to_import_the_data_file_Cancel_Button
 
-
+#import dialog
+importDlg_filename=names.fileNameEdit_QLineEdit
+importDlg_open=names.qFileDialog_Open_QPushButton
 
 #step bar
 stepBar_scan=names.stepBar_step_scan_StepButton

@@ -75,10 +75,10 @@ class CoverPage():
     '''
     def importData(self,filename):
         test.log("Import data with name: %s" % filename)  
-        squish.snooze(5)
+        #squish.snooze(5)
         squish.snooze(2)
         squish.nativeType(filename)
-        squish.snooze(2)
+        squish.snooze(1)
         squish.nativeType("<Return>")
         squish.nativeType("<Return>")
     

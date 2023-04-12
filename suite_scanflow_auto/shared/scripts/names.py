@@ -49,6 +49,10 @@ select_a_folder_in_which_to_import_the_data_file_File_name_Label = {"container":
 select_a_folder_in_which_to_import_the_data_file_File_name_ComboBox = {"container": select_a_folder_in_which_to_import_the_data_file_Dialog, "leftObject": select_a_folder_in_which_to_import_the_data_file_File_name_Label, "type": "ComboBox"}
 select_a_folder_in_which_to_import_the_data_file_Open_Button = {"container": select_a_folder_in_which_to_import_the_data_file_Dialog, "text": "Open", "type": "Button"}
 select_a_folder_in_which_to_import_the_data_file_Cancel_Button = {"container": select_a_folder_in_which_to_import_the_data_file_Dialog, "text": "Cancel", "type": "Button"}
+qFileDialog_QFileDialog = {"name": "QFileDialog", "type": "QFileDialog", "visible": 1}
+qFileDialog_fileNameLabel_QLabel = {"name": "fileNameLabel", "type": "QLabel", "visible": 1, "window": qFileDialog_QFileDialog}
+qFileDialog_Open_QPushButton = {"text": "Open", "type": "QPushButton", "unnamed": 1, "visible": 1, "window": qFileDialog_QFileDialog}
+fileNameEdit_QLineEdit = {"buddy": qFileDialog_fileNameLabel_QLabel, "name": "fileNameEdit", "type": "QLineEdit", "visible": 1}
 
 #message box title
 hardware_Support_StyleLabel = {"container": o_QmlWidget, "text": "Hardware Support", "type": "StyleLabel", "unnamed": 1, "visible": True}
@@ -60,7 +64,13 @@ buttons_Cancel_DialogButton = {"checkable": True, "container": buttons_ListView,
 don_t_show_again_StyleCheckBox = {"checkable": True, "container": o_QmlWidget, "id": "checkBox", "text": "Don't show again", "type": "StyleCheckBox", "unnamed": 1, "visible": True}
 
 #Discard dialog
-buttons_Discard_DialogButton = {"checkable": True, "container": buttons_ListView, "text": "Discard", "type": "DialogButton", "unnamed": 1, "visible": True}
+def setDiscard_Dialog_ok_btn():
+    buttons_OK_DialogButton = {"checkable": True, "container": buttons_ListView, "text": "OK", "type": "DialogButton", "unnamed": 1, "visible": True}
+    buttons_Discard_DialogButton=buttons_OK_DialogButton
+    if scanFlow_version in ['1.0.7.3','1.0.8.3','1.0.9.1']:#old version
+        buttons_Discard_DialogButton = {"checkable": True, "container": buttons_ListView, "text": "Discard", "type": "DialogButton", "unnamed": 1, "visible": True}
+    return buttons_Discard_DialogButton
+buttons_Discard_DialogButton=setDiscard_Dialog_ok_btn()
 continue_Scan_StyleLabel = {"container": o_QmlWidget, "text": "Continue Scan", "type": "StyleLabel", "unnamed": 1, "visible": True}
 you_are_going_to_continue_to_scan_but_all_changes_you_ve_made_on_the_refined_scans_will_be_discarded_Please_confirm_StyleLabel = {"container": o_QmlWidget, "text": "You are going to continue to scan but all changes you've made on the refined scans will be discarded. Please confirm.", "type": "StyleLabel", "unnamed": 1, "visible": True}
 
