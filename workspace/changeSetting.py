@@ -19,18 +19,20 @@ def changeSetting(xmlfile,sectionname,tagname,attrdict):
             for child in classChild:
                 if child.tag==tagname and child.attrib['key']==attrdict['key']:
                     child.attrib['value'] = attrdict['value']
-                    print("changed...")
+                    print("update <%s key=%s,value=%s/> under %s"%(tagname,child.attrib['key'],child.attrib['value'],sectionname))
                     flag=True
             if not flag:
                 elt = classChild.makeelement(tagname, attrdict)
                 classChild.append(elt)
-                print("add new element...")
+                print("add element <%s key=%s,value=%s/> under %s" % (tagname, attrdict['key'], attrdict['value'],sectionname))
+
     tree.write(xmlfile)
     #tree.write(xmlfile, encoding="utf-8", xml_declaration=True)
 
 
 
 def delAllFiles(path):
+    print("clean folder: [%s]"%(path))
     for file in os.listdir(path):
         #Delete all files
         if os.path.isfile(os.path.join(path, file)):

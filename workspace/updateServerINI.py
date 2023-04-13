@@ -4,19 +4,27 @@ import configparser
 import os.path
 import sys
 def main(inputFile):
-    files=getProductPath(r'C:\Program Files\WindowsApps',['DEXIS','ScanFlow'])
+    files=getProductPath(os.path.expandvars('%ProgramFiles%/WindowsApps'),['DEXIS','ScanFlow'])
     productFullName=files[0]
     print(productFullName)
+    productFullName_win="\""+productFullName.replace("\\","/")+"\""
     if os.path.isfile(inputFile):
         config = configparser.RawConfigParser()
         config.optionxform=lambda optionstr:optionstr #reserve options' lower/upper cases
         config.read(inputFile)
-        if config.has_section('General'):
-            for key, value in config['General'].items():
+        general_sec='General'
+        if config.has_section(general_sec):
+            for key, value in config[general_sec].items():
                 if key.lower() in  ['aut/scanflow_standalone','aut/scanflow']:
-                    print("key %s, value %s"%(key,value))
-                    config.set('General',key,"\""+productFullName.replace("\\","/")+"\"")
-                    config.write(open(inputFile,'w'))
+                    print("key %s, old value %s"%(key,value))
+                    config.set(general_sec,key,productFullName_win)
+                    print("key %s, new value %s" % (key, productFullName_win))
+
+        else:
+            config.add_section(general_sec)
+            config.set(general_sec,'AUT/scanflow',productFullName_win)
+            config.set(general_sec, 'AUT/scanflow_standalone', productFullName_win)
+        config.write(open(inputFile, 'w'))
 
 
 def getProductPath(parentFolder,keywordsList=['DEXIS','ScanFlow']):
@@ -45,5 +53,5 @@ def revFolder(path,keywordsList,archiveFiles):
 
 if __name__=='__main__':
     print(str(sys.argv))
-    inputFile=r'%APPDATA%\froglogic\Squish\ver1\server.ini'
+    inputFile=os.path.expandvars('%APPDATA%/froglogic/Squish/ver1/server.ini')
     main(inputFile)
