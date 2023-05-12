@@ -1,5 +1,5 @@
 "testName"	"cszxName"	"refineType"	"skipFlag"	"notes"
-"1"	"upper+impression.cszx"	"high"	"Y"	"ScanRef: data/nodata,Ref:bite/nobite,fullarch/onlylower/onlyupper"
+"1"	"upper+impression.cszx"	"high"	"Y"	"ScanRef: data/nodata,Ref:bite/nobite,fullarch/onlylower/onlyupper, limited: fullarch(must contains upper, lower, bite)"
 "2"	"upper+lower+bite+shade.cszx"	"low"	"Y"	""
 "3"	"lower+emergency+scanbody+emergency-impress.cszx"	"low"	"Y"	""
 "4"	"upper+lower+bites+emergency+scanbody.cszx"	"low"	"Y"	""
@@ -7,3 +7,4 @@
 "6"	"upper+lower+bite+edentulous+edentulous-impress.cszx"	"low"	"Y"	""
 "7"	"smoke_1.0.9.1common+edentulous+denture.cszx"	"low"	"Y"	""
 "8"	"common_bite_shade_snapshots.cszx"	""	""	""
+"9"	"smoke 3600_1.0.9.301[2023-04-24T14-43-02][1.0.9.301]common.cszx"	""	""	""

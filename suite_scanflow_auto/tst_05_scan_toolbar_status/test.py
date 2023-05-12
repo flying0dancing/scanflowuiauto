@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-"
 from utils import ConfigUtil
+from utils import FileUtil
+from utils import DateTimeUtil
 from pages.CoverPage import CoverPage
 from pages.LeftBarTool import LeftBarTool
 #APPNAME = "scanflow \"C:\ProgramData\DEXIS IS\ScanFlow\inputdata.xml\""
@@ -7,9 +9,14 @@ from pages.LeftBarTool import LeftBarTool
 def main():
     source(findFile("scripts", "common.py"))
     #test.log(os.environ["SQUISH_PREFIX"])
+    tName=FileUtil.getParentFolder(__file__)
+    test.log(tName)
+    test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+tName+'\\'
+    scanflow_log=ConfigUtil.getScanFlowLog()
+    test_before(test_log_folder,scanflow_log)
     launchStr=ConfigUtil.getScanFlowLaunchStrByCmd()
     startApplication(launchStr)
-    coverPage=CoverPage()
+    coverPage=CoverPage(test_log_folder)
     #Click ok button on the warn message which says it's an internal version
     coverPage.skipInternalVersionDlg()
     
@@ -34,7 +41,25 @@ def main():
             else:
                 trp=leftBarTool.verifyLeftTool(locatorName,verifiedDict)
                 test.verify(trp[0]==True,trp[1])
-
+    test_after(test_log_folder,scanflow_log)
     #scanViewButtonsCheck()
     
+def test_before(test_log_folder,scanflow_log):
+    test.log(scanflow_log)
+    if FileUtil.fileExist(scanflow_log):
+        FileUtil.cleanFileContent(scanflow_log)
+    if not FileUtil.fileExist(test_log_folder):
+        FileUtil.makedirs(test_log_folder)
 
+def test_after(test_log_folder,scanflow_log):
+    if FileUtil.fileExist(scanflow_log):
+        #test_log_folder=ConfigUtil.getTestLogFolder()
+        scanflow_logname=FileUtil.getFileName(scanflow_log)
+        scanflow_logname_bak=scanflow_logname[0]+scanflow_logname[1]
+        test_scanflow_log=test_log_folder+scanflow_logname_bak
+        test.log("archive scanflow log to test logs %s" % test_scanflow_log)
+        FileUtil.renameFile(scanflow_log, test_scanflow_log)
+    else:
+        test.log("cannot find the scanflow log %s" % scanflow_log)
+    
+    

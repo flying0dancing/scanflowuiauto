@@ -15,6 +15,7 @@ o_QmlWidget = {"type": "QmlWidget", "unnamed": 1, "visible": 1, "window": o_Mess
 mainWindow_TitleBar_TitleBar = {"name": "TitleBar", "type": "TitleBar", "visible": 1, "window": mainWindow_MainWindow}
 
 workspace_QmlWidget = {"type": "QmlWidget", "unnamed": 1, "visible": 1,"container": mainWindow_workspace_WorkSpace }
+o_BackgroundDialog = {"type": "BackgroundDialog", "unnamed": 1, "visible": 1}
 
 #menu menu list
 o_MainMenu = {"type": "MainMenu", "unnamed": 1, "visible": 1}
@@ -147,18 +148,34 @@ catalogBar_workflow_bar_btn_common_impression_DragButton = {"container": mainWin
 catalogBar_workflow_bar_btn_edentulous_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_edentulous", "type": "DragButton", "visible": True}
 catalogBar_workflow_bar_btn_edentulous_impression_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_edentulous_impression", "type": "DragButton", "visible": True}
 catalogBar_workflow_bar_btn_preparation_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_preparation", "type": "DragButton", "visible": True}
+catalogBar_workflow_bar_btn_preparation_impression_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_preparation_impression", "type": "DragButton", "visible": True}
 catalogBar_workflow_bar_btn_emergence_profile_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_emergence_profile", "type": "DragButton", "visible": True}
 catalogBar_workflow_bar_btn_implant_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_implant", "type": "DragButton", "visible": True}
-catalogBar_workflow_bar_btn_implant_matching_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_implant_matching", "type": "DragButton", "visible": True}
+catalogBar_workflow_bar_btn_implant_matching_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_implant_matching", "type": "DragButton"}
 catalogBar_workflow_bar_btn_implant_impression_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_implant_impression", "type": "DragButton", "visible": True}
 catalogBar_workflow_bar_btn_extra_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_extra", "type": "DragButton", "visible": True}
 catalogBar_workflow_bar_btn_denture_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_denture", "type": "DragButton", "visible": True}
-catalogBar_workflow_bar_btn_denture_matching_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_denture_matching", "type": "DragButton", "visible": True}
+catalogBar_workflow_bar_btn_denture_matching_DragButton = {"container": mainWindow_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_denture_matching", "type": "DragButton"}
+#add workflow, catalog
+catalogBar_btnConfig_StyleButton = {"checkable": False, "container": mainWindow_CatalogBar_WorkFlowBar, "id": "btnConfig", "type": "StyleButton", "unnamed": 1, "visible": True}
+#workflow panel
+workflowPanel_WorkflowPanel = {"name": "WorkflowPanel", "type": "WorkflowPanel", "visible": 1}
+workflowPanel_QmlWidget = {"type": "QmlWidget", "unnamed": 1, "visible": 1, "window": workflowPanel_WorkflowPanel}
+btnEdentulous_WorkflowButton = {"checkable": False, "container": workflowPanel_QmlWidget, "id": "btnEdentulous", "type": "WorkflowButton", "unnamed": 1, "visible": True}
+btnImplant_WorkflowButton = {"checkable": False, "container": workflowPanel_QmlWidget, "id": "btnImplant", "type": "WorkflowButton", "unnamed": 1, "visible": True}
+btnPreparation_WorkflowButton = {"checkable": False, "container": workflowPanel_QmlWidget, "id": "btnPreparation", "type": "WorkflowButton", "unnamed": 1, "visible": True}
+btnImpression_WorkflowButton = {"checkable": False, "container": workflowPanel_QmlWidget, "id": "btnImpression", "type": "WorkflowButton", "unnamed": 1, "visible": True}
+btnExtra_WorkflowButton = {"checkable": False, "container": workflowPanel_QmlWidget, "id": "btnExtra", "type": "WorkflowButton", "unnamed": 1, "visible": True}
+
 
 workflow_bar_btn_cut_hole = {"checkable": True,  "objectName": "workflow_bar.btn_cut", "type": "csStateButton", "visible": 1}
 
+#Mesh Quality Dialog
 workspace_Next_csButton = {"container": mainWindow_workspace_WorkSpace, "text": "Next", "type": "csButton", "unnamed": 1, "visible": 1}
 workspace_Next_csButton1 = {"text": "Next", "type": "csButton", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+rescan_csButton = {"text": "Rescan", "type": "csButton", "unnamed": 1, "visible": 1, "window": o_BackgroundDialog}
+mesh_Quality_QLabel = {"text": "Mesh Quality", "type": "QLabel", "unnamed": 1, "visible": 1, "window": o_BackgroundDialog}
+
 #workflow_bar_btn_impression = {"checkable": True, "container": workspace_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_impression", "type": "csStateButton", "visible": 1}
 
 #workflow_bar_btn_postscan = {"checkable": True, "container": workspace_CatalogBar_WorkFlowBar, "objectName": "workflow_bar.btn_preparation", "type": "StateButton", "visible": True}
@@ -485,7 +502,6 @@ cS_MeshViewer_StyleLabel = {"container": o_OpenPage, "text": "CS MeshViewer", "t
 open_StyleButton = {"checkable": False, "container": o_OpenPage, "id": "btnOpen", "text": "Open", "type": "StyleButton", "unnamed": 1, "visible": True}
 
 #Check button in what's new page
-o_BackgroundDialog = {"type": "BackgroundDialog", "unnamed": 1, "visible": 1}
 btn_not_show_again_QPushButton = {"name": "btn_not_show_again_", "type": "QPushButton", "visible": 1, "window": o_BackgroundDialog}
 btn_ok_QPushButton = {"name": "btn_ok_", "type": "QPushButton", "visible": 1, "window": o_BackgroundDialog}
 
@@ -599,16 +615,78 @@ dEXIS_IS_ScanFlow_patientInfoPanel_PatientInfoPanel = {"container": dEXIS_IS_Sca
 dEXIS_IS_ScanFlow_1_1_StyleLabel = {"container": dEXIS_IS_ScanFlow_QQuickApplicationWindow, "text": "1 1", "type": "StyleLabel", "unnamed": 1, "visible": True}
 #edit patient btn
 dEXIS_IS_ScanFlow_editButton_DialogButton = {"checkable": True, "container": dEXIS_IS_ScanFlow_QQuickApplicationWindow, "id": "editButton", "type": "DialogButton", "unnamed": 1, "visible": True}
-stepBar_bg_Rectangle = {"container": mainWindow_StepBar_StepBar, "id": "bg", "type": "Rectangle", "unnamed": 1, "visible": True}
-o_DialogButton = {"checkable": True, "container": o_QmlWidget, "text": "好的，明白。", "type": "DialogButton", "unnamed": 1, "visible": True}
+#denture scan tip
+mainWindow_DentureWorkflowDialog = {"type": "DentureWorkflowDialog", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+oK_got_it_DialogButton = {"checkable": False, "container": mainWindow_DentureWorkflowDialog, "text": "OK, got it.", "type": "DialogButton", "unnamed": 1, "visible": True}
+don_t_show_again_StyleCheckBox_2 = {"checkable": True, "container": mainWindow_DentureWorkflowDialog, "text": "Don't show again", "type": "StyleCheckBox", "unnamed": 1, "visible": True}
+#denture scan ways
+o_DenturePromptDlg = {"type": "DenturePromptDlg", "unnamed": 1, "visible": 1}
 
+mainWindow_ScannerStatusBar_ScannerStatusBar = {"name": "ScannerStatusBar", "type": "ScannerStatusBar", "visible": 1, "window": mainWindow_MainWindow}
 
+#Denture copy dialog
+o_QmlWidget_4 = {"type": "QmlWidget", "unnamed": 1, "visible": 1, "window": o_DenturePromptDlg}
+copy_scan_data_from_b_Common_Scan_b_StyleImageRadioButton = {"checkable": True, "container": o_QmlWidget_4, "text": "Copy scan data from <b>Common Scan</b>", "type": "StyleImageRadioButton", "unnamed": 1, "visible": True}
+start_a_new_scan_StyleRadioButton = {"checkable": True, "container": o_QmlWidget_4, "text": "Start a new scan", "type": "StyleRadioButton", "unnamed": 1, "visible": True}
+continue_b_Denture_Scan_b_StyleRadioButton = {"checkable": True, "container": o_QmlWidget_4, "text": "Continue <b>Denture Scan</b>", "type": "StyleRadioButton", "unnamed": 1, "visible": False}
+overwrite_font_color_red_the_existing_denture_will_be_discarded_font_StyleRadioButton = {"checkable": True, "container": o_QmlWidget_4, "text": "Overwrite<font color='red'>(the existing denture will be discarded)</font>", "type": "StyleRadioButton", "unnamed": 1, "visible": False}
 
+#Denture copy dialog's OK Cancel buttons
+buttons_ListView_3 = {"container": o_QmlWidget_4, "id": "buttons", "type": "ListView", "unnamed": 1, "visible": True}
+buttons_Cancel_DialogButton_3 = {"checkable": True, "container": buttons_ListView_3, "text": "Cancel", "type": "DialogButton", "unnamed": 1, "visible": True}
+buttons_OK_DialogButton = {"checkable": True, "container": buttons_ListView_3, "text": "OK", "type": "DialogButton", "unnamed": 1, "visible": True}
 
+o_SoftwareUpdateDialog = {"type": "SoftwareUpdateDialog", "unnamed": 1, "visible": 1}
+o_QmlWidget_5 = {"type": "QmlWidget", "unnamed": 1, "visible": 1, "window": o_SoftwareUpdateDialog}
+#software update title
+software_Update_StyleLabel = {"container": o_QmlWidget_5, "text": "Software Update", "type": "StyleLabel", "unnamed": 1, "visible": True}
+#software update buttons
+buttons_ListView_4 = {"container": o_QmlWidget_5, "id": "buttons", "type": "ListView", "unnamed": 1, "visible": True}
+buttons_Later_DialogButton_2 = {"checkable": True, "container": buttons_ListView_4, "text": "Later", "type": "DialogButton", "unnamed": 1, "visible": True}
+buttons_Update_now_DialogButton_2 = {"checkable": True, "container": buttons_ListView_4, "text": "Update now", "type": "DialogButton", "unnamed": 1, "visible": True}
+mainWindow_ImplantWorkflowDialog = {"type": "ImplantWorkflowDialog", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+oK_got_it_DialogButton_2 = {"checkable": False, "container": mainWindow_ImplantWorkflowDialog, "text": "OK, got it.", "type": "DialogButton", "unnamed": 1, "visible": True}
+don_t_show_again_StyleCheckBox_3 = {"checkable": True, "container": mainWindow_ImplantWorkflowDialog, "text": "Don't show again", "type": "StyleCheckBox", "unnamed": 1, "visible": True}
+o_EmergenceProfilePromptDlg = {"type": "EmergenceProfilePromptDlg", "unnamed": 1, "visible": 1}
+o_QmlWidget_6 = {"type": "QmlWidget", "unnamed": 1, "visible": 1, "window": o_EmergenceProfilePromptDlg}
+buttons_ListView_5 = {"container": o_QmlWidget_6, "id": "buttons", "type": "ListView", "unnamed": 1, "visible": True}
+buttons_Cancel_DialogButton_4 = {"checkable": True, "container": buttons_ListView_5, "text": "Cancel", "type": "DialogButton", "unnamed": 1, "visible": True}
+buttons_OK_DialogButton_2 = {"checkable": True, "container": buttons_ListView_5, "text": "OK", "type": "DialogButton", "unnamed": 1, "visible": True}
+copy_scan_data_from_b_Common_Scan_b_StyleImageRadioButton_2 = {"checkable": True, "container": o_QmlWidget_6, "text": "Copy scan data from <b>Common Scan</b>", "type": "StyleImageRadioButton", "unnamed": 1, "visible": True}
+start_a_new_scan_StyleRadioButton_2 = {"checkable": True, "container": o_QmlWidget_6, "text": "Start a new scan", "type": "StyleRadioButton", "unnamed": 1, "visible": True}
+o_ImplantPromptDlg = {"type": "ImplantPromptDlg", "unnamed": 1, "visible": 1}
+o_QmlWidget_7 = {"type": "QmlWidget", "unnamed": 1, "visible": 1, "window": o_ImplantPromptDlg}
+copy_scan_data_from_b_Common_Scan_b_StyleImageRadioButton_3 = {"checkable": True, "container": o_QmlWidget_7, "text": "Copy scan data from <b>Common Scan</b>", "type": "StyleImageRadioButton", "unnamed": 1, "visible": True}
+copy_scan_data_from_b_Emergence_Profile_Scan_b_StyleImageRadioButton = {"checkable": True, "container": o_QmlWidget_7, "text": "Copy scan data from <b>Emergence Profile Scan</b>", "type": "StyleImageRadioButton", "unnamed": 1, "visible": True}
+start_a_new_scan_StyleRadioButton_3 = {"checkable": True, "container": o_QmlWidget_7, "text": "Start a new scan", "type": "StyleRadioButton", "unnamed": 1, "visible": True}
 
-
-
-
+buttons_ListView_6 = {"container": o_QmlWidget_7, "id": "buttons", "type": "ListView", "unnamed": 1, "visible": True}
+buttons_OK_DialogButton_3 = {"checkable": True, "container": buttons_ListView_6, "text": "OK", "type": "DialogButton", "unnamed": 1, "visible": True}
+buttons_Cancel_DialogButton_5 = {"checkable": True, "container": buttons_ListView_6, "text": "Cancel", "type": "DialogButton", "unnamed": 1, "visible": True}
+mainWindow_Back_csButton = {"text": "Back", "type": "csButton", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+mainWindow_MeshCanvas = {"type": "MeshCanvas", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+mainWindow_Toolbar_EmergenceProfileCutToolbar = {"name": "Toolbar", "type": "EmergenceProfileCutToolbar", "visible": 1, "window": mainWindow_MainWindow}
+mainWindow_MeshCanvas_2 = {"occurrence": 2, "type": "MeshCanvas", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+emergence_Profile_Scan_StyleLabel = {"container": o_QmlWidget_6, "text": "Emergence Profile Scan", "type": "StyleLabel", "unnamed": 1, "visible": True}
+scanbody_Scan_StyleLabel = {"container": o_QmlWidget_7, "text": "Scanbody Scan", "type": "StyleLabel", "unnamed": 1, "visible": True}
+denture_Scan_StyleLabel = {"container": o_QmlWidget_4, "text": "Denture Scan", "type": "StyleLabel", "unnamed": 1, "visible": True}
+shade_Matching_StyleLabel = {"container": o_QmlWidget, "text": "Shade Matching", "type": "StyleLabel", "unnamed": 1, "visible": True}
+notice_StyleLabel = {"container": o_QmlWidget, "text": "Notice", "type": "StyleLabel", "unnamed": 1, "visible": True}
+you_are_importing_scans_acquired_more_than_30_days_ago_Please_pay_attention_to_potential_clinical_difference_while_continuing_the_scan_StyleLabel = {"container": o_QmlWidget, "text": "You are importing scans acquired more than 30 days ago. Please pay attention to potential clinical difference while continuing the scan.", "type": "StyleLabel", "unnamed": 1, "visible": True}
+mainWindow_PremiumSubscriptionDialog = {"type": "PremiumSubscriptionDialog", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+premium_StyleLabel = {"container": mainWindow_PremiumSubscriptionDialog, "text": "Premium", "type": "StyleLabel", "unnamed": 1, "visible": True}
+you_are_currently_on_the_standard_plan_StyleLabel = {"container": mainWindow_PremiumSubscriptionDialog, "text": "You are currently on the standard plan.", "type": "StyleLabel", "unnamed": 1, "visible": True}
+upgrade_to_Premium_to_enjoy_these_great_features_StyleLabel = {"container": mainWindow_PremiumSubscriptionDialog, "text": "Upgrade to Premium to enjoy these great features.", "type": "StyleLabel", "unnamed": 1, "visible": True}
+o_GeneralCloseButton = {"checkable": False, "container": mainWindow_PremiumSubscriptionDialog, "type": "GeneralCloseButton", "unnamed": 1, "visible": True}
+upgrade_DialogButton = {"checkable": False, "container": mainWindow_PremiumSubscriptionDialog, "text": "Upgrade", "type": "DialogButton", "unnamed": 1, "visible": True}
+cancel_DialogButtonWithTheme = {"checkable": False, "container": mainWindow_PremiumSubscriptionDialog, "text": "Cancel", "type": "DialogButtonWithTheme", "unnamed": 1, "visible": True}
+mainWindow_PremiumIntroductionDialog = {"type": "PremiumIntroductionDialog", "unnamed": 1, "visible": 1, "window": mainWindow_MainWindow}
+premium_Feature_StyleLabel = {"container": mainWindow_PremiumIntroductionDialog, "text": "Premium Feature", "type": "StyleLabel", "unnamed": 1, "visible": True}
+close_button_GeneralCloseButton = {"checkable": False, "container": mainWindow_PremiumIntroductionDialog, "id": "close_button", "type": "GeneralCloseButton", "unnamed": 1, "visible": True}
+this_functionality_is_available_only_for_Premium_users_StyleLabel = {"container": mainWindow_PremiumIntroductionDialog, "text": "This functionality is available only for Premium users.", "type": "StyleLabel", "unnamed": 1, "visible": True}
+later_DialogButtonWithTheme = {"checkable": False, "container": mainWindow_PremiumIntroductionDialog, "text": "Later", "type": "DialogButtonWithTheme", "unnamed": 1, "visible": True}
+upgrade_DialogButton_2 = {"checkable": False, "container": mainWindow_PremiumIntroductionDialog, "text": "Upgrade", "type": "DialogButton", "unnamed": 1, "visible": True}
+please_upgrade_to_use_this_feature_StyleLabel = {"container": mainWindow_PremiumIntroductionDialog, "text": "Please upgrade to use this feature.", "type": "StyleLabel", "unnamed": 1, "visible": True}
 
 
 

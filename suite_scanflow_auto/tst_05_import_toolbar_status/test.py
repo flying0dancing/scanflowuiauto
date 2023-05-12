@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-"
-from utils import ConfigUtil, DateTimeUtil,FileUtil,ZipUtil
+from utils import ConfigUtil, DateTimeUtil,FileUtil,CatalogsUtil
 from pages.CoverPage import CoverPage
-from pages.CommonRefinePage import CommonRefinePage
-from pages.CommonScanPage import CommonScanPage
 import test
 '''
 @see: related smoke test cases
@@ -39,20 +37,21 @@ def main():
         
     
 def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_folder): 
+    acqIdentifiers=CatalogsUtil.getRefList(filename)
     test.log(launchStr ) 
     #testSettings.logScreenshotOnFail = True
     #testSettings.logScreenshotOnPass = True
     startApplication(launchStr)
     
-    coverPage=CoverPage()
-    commonScanPage=CommonScanPage()
-    commonRefinePage=CommonRefinePage()
+    coverPage=CoverPage(test_log_folder)
+    
     #Click ok button on the warn message which says it's an internal version
     coverPage.skipInternalVersionDlg()
-    refs=ZipUtil.getRefs(filename,commonScanPage.acqCatalogsDict())
+    
+    commonScanPage=coverPage.clickImportButton(filename,CatalogsUtil.containsShadeLibs(acqIdentifiers),CatalogsUtil.pass30Days(filename))
+    refs=CatalogsUtil.setRefsString(acqIdentifiers)
     scanRef=refs[0]
     refineRef=refs[1]
-    coverPage.clickImportButton(filename)
     test.verify(commonScanPage.isInScanView()==True,"ScanFlow is on scan step view, test data is imported.")
     saveDesktopScreenshot(test_log_folder+"0_import_data.png")
     scanRefs=scanRef.lower().split(',')
@@ -71,7 +70,7 @@ def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_f
         
     verifyCommonScanInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,scanRefs)
     
-    commonScanPage.clickRefineButton(refine_type.lower())
+    commonRefinePage=commonScanPage.clickRefineButton(refine_type.lower())
     test.verify(commonRefinePage.isInRefineView()==True, "ScanFlow is on check step view, test data is refined.")
     saveDesktopScreenshot(test_log_folder+"2_refine_data.png")
     

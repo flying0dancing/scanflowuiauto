@@ -12,7 +12,7 @@ def get_free_space_mb(folerpath):
     if platform.system() == 'Windows':
         free_bytes=ctypes.c_ulonglong(0)
         ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(folerpath),None,None,ctypes.pointer(free_bytes))
-        test.log(str(round(free_bytes.value/1024/1024/1024*100,2)))
+        test.log(str(round(free_bytes.value/1024/1024/1024*100,2))+"MB")
         return round(free_bytes.value/1024/1024/1024*100,2)
     else:
         st=os.statvfs('/')

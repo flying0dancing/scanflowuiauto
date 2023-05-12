@@ -121,7 +121,7 @@ def tail(filepath, n, block=-1024):
         f.seek(0,2)
         filesize=f.tell()
         while True:
-            if filesize>=abs(block):
+            if filesize>abs(block):
                 f.seek(block,2)
                 s=f.readlines()
                 if len(s) >n:
@@ -130,8 +130,11 @@ def tail(filepath, n, block=-1024):
                 else:
                     block *=2
             else:
+                if filesize==abs(block):
+                    return f.readlines()
                 block=-filesize
-    pass
+
+    
 
 """
 :return the position if (str1 in str), others -3(not run),-2(empty str),-1(not found)

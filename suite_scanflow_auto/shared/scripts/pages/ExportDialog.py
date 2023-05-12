@@ -7,6 +7,8 @@ import locators
 from utils import FileUtil
 from pages.BasePage import BasePage
 class ExportDialog(BasePage):
+    def __init__(self,logfolder):
+        super().__init__(logfolder)
 
     def selectSaveTabAndSave(self,file_format):
         test.log("select save tab in Export dialog")
@@ -47,6 +49,9 @@ class ExportDialog(BasePage):
                 squish.snooze(2)
                 test.log("Wait for another 2s")
             squish.snooze(2)
+            if object.exists(locators.exportDlg_premium_subscriptDlg_upgrade):
+                squish.mouseClick(locators.exportDlg_premium_subscriptDlg_close)
+                test.fail("not premium data, so cannot export STL or PLY")
     
     
     
@@ -58,8 +63,8 @@ class ExportDialog(BasePage):
         squish.mouseClick(squish.waitForObject(locators.exportDlg_btn_send))
         squish.snooze(3)
         while object.exists(locators.base_waiting_progress):
-            squish.snooze(2)
-            test.log("Wait for another 2s")
+            squish.snooze(5)
+            test.log("Wait for another 5s")
         squish.snooze(10)
         #return self.getStatusOfSendToISConnect()
 

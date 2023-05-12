@@ -8,7 +8,10 @@ import test
 import squish
 import locators
 from pages.BasePage import BasePage
+from pages.ExportDialog import ExportDialog
 class CommonRefinePage(BasePage):
+    def __init__(self,logfolder):
+        super().__init__(logfolder)
     '''
     @param flag: 1 means discard refine data
     '''        
@@ -43,6 +46,7 @@ class CommonRefinePage(BasePage):
         test.log("click export step button")
         squish.mouseClick(squish.waitForObject(locators.stepBar_export))
         squish.snooze(2)
+        return ExportDialog(self.logfolder)
    
     '''
     def selectSaveTabOnExportDlg(self,path):

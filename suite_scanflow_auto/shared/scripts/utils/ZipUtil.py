@@ -3,6 +3,8 @@ from utils import FileUtil
 import zipfile
 import os
 import test
+
+
 '''
 unzip files to unzipFolder, if unzipFolder=None, unzipFolder starts with extracFiles_
 '''
@@ -56,14 +58,11 @@ def getNamesOfZipFile(zipFile):
             nameList.append(name)
     zip_file.close()   
     return nameList   
-'''
-outer func
-'''
-def getRefs(zipFile,acqCatalogsDict):
-    acqIdentifiers=getRefsFromZipFile(zipFile,acqCatalogsDict)
-    
-    test.log(str(acqIdentifiers))
-    return setRefsString(acqIdentifiers)
+
+
+
+
+
 '''
 inner func
 '''
@@ -83,45 +82,9 @@ def getRefsFromZipFile(zipFile,acqCatalogsDict):
                     acqIdentifiers.append(tmpName)
             #if 'Bite' in name and 'bite' not in acqIdentifiers:
                 #acqIdentifiers.append('bite')
-            if 'shadeLibraries.bin' in name.lower():
+            if 'shadelibraries.bin' in name.lower():
                 acqIdentifiers.append('shade')
         if existBiteCatalog(zipFile):
             acqIdentifiers.append('bite')
+    test.log(str(acqIdentifiers)) 
     return acqIdentifiers
-'''
-inner func
-'''
-def setRefsString(acqIdentifiers):
-    #ScanRef: data/nodata,Ref:bite/nobite,fullarch/onlylower/onlyupper
-    reflist=['data']#0:lower,1:upper
-    if '0' in acqIdentifiers:
-        if '1' in acqIdentifiers:
-            reflist.append('fullarch')
-        else:
-            reflist.append('onlylower')
-    else:
-        if '1' in acqIdentifiers:
-            reflist.append('onlyupper')
-        else:
-            reflist.remove('data')
-            reflist.append('nodata')
-            #common doesn't contains data, maybe only edentulous
-    
-    if 'bite' in acqIdentifiers:
-        reflist.append('bite')
-    else:
-        reflist.append('nobite')
-    
-    if 'shade' in acqIdentifiers:
-        reflist.append('shade')
-    else:
-        reflist.append('noshade')
-    if 'notonlycommon' in acqIdentifiers:
-        reflist.append('notonlycommon')
-    else:
-        reflist.append('onlycommon')
-    refStr=','.join(reflist)
-    scanRef=refStr.replace(',notonlycommon', '').replace(',onlycommon', '').replace(',noshade', '').replace(',shade', '')
-    refineRef=refStr.replace(',nodata', '').replace(',data', '')
-    return (scanRef,refineRef)
-  

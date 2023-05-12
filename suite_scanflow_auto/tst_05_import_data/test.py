@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-"
-from utils import ConfigUtil, DateTimeUtil, FileUtil
+from utils import ConfigUtil, DateTimeUtil, FileUtil,CatalogsUtil
 from pages.CoverPage import CoverPage
-from pages.CommonScanPage import CommonScanPage
 
 '''
 @see: related smoke test cases
 1.15 Smoke Testing_Import csz file
-1.20 Smoke Testing_Next and Back
-1.30 Smoke Testing_Save Files By Type
-1.16 Smoke Testing_Export DCM file to IS Connect
+
 '''
 
 
@@ -31,22 +28,22 @@ def main():
         test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+tName+'\\'+testname+'\\'
         scanflow_log=ConfigUtil.getScanFlowLog()
         test_before(test_log_folder,scanflow_log)
-        importData_refine_export_save_send(launchStr,filename,test_log_folder)
+        importData(launchStr,filename,test_log_folder)
         test_after(testname,test_log_folder,scanflow_log)
         
     
-def importData_refine_export_save_send(launchStr,filename,test_log_folder): 
+def importData(launchStr,filename,test_log_folder): 
+    acqIdentifiers=CatalogsUtil.getRefList(filename)
     test.log(launchStr ) 
     #testSettings.logScreenshotOnFail = True
     #testSettings.logScreenshotOnPass = True
     startApplication(launchStr)
-    coverPage=CoverPage()
-    commonScanPage=CommonScanPage()
+    coverPage=CoverPage(test_log_folder)
     
     #Click ok button on the warn message which says it's an internal version
     coverPage.skipInternalVersionDlg()
     
-    coverPage.clickImportButton(filename)
+    commonScanPage=coverPage.clickImportButton(filename,CatalogsUtil.containsShadeLibs(acqIdentifiers),CatalogsUtil.pass30Days(filename))
     test.verify(commonScanPage.isInScanView()==True,"ScanFlow is on scan step view, test data is imported.")
     saveDesktopScreenshot(test_log_folder+"0_import_data.png")
     

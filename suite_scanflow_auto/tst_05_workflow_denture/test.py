@@ -4,13 +4,12 @@ from pages.CoverPage import CoverPage
 
 '''
 @see: related smoke test cases
+1.08 Smoke Testing_Denture workflow
 1.15 Smoke Testing_Import csz file
-1.20 Smoke Testing_Next and Back
-1.30 Smoke Testing_Save Files By Type
+1.30 Smoke Testing_Save Files By TypeZipUtil
 1.16 Smoke Testing_Export DCM file to IS Connect
+
 '''
-
-
 
 def main():
     source(findFile("scripts","Common.py"))
@@ -33,49 +32,44 @@ def main():
         importData_refine_export_save_send(launchStr,filename,refine_type.lower(),test_log_folder)
         test_after(testname,test_log_folder,scanflow_log)
         
-    
 def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_folder): 
+    #verify here is only common jaws.
     acqIdentifiers=CatalogsUtil.getRefList(filename)
-    test.log(launchStr ) 
-    #testSettings.logScreenshotOnFail = True
-    #testSettings.logScreenshotOnPass = True
-    startApplication(launchStr)
-    coverPage=CoverPage(test_log_folder)
+    if CatalogsUtil.containsOtherWorkflows(acqIdentifiers):
+        test.fail("import cszx file contains other workflows")
+    else:
+        test.log(launchStr ) 
+        #testSettings.logScreenshotOnFail = True
+        #testSettings.logScreenshotOnPass = True
+        startApplication(launchStr)
+        coverPage=CoverPage(test_log_folder)
     
-    #Click ok button on the warn message which says it's an internal version
-    coverPage.skipInternalVersionDlg()
+        #Click ok button on the warn message which says it's an internal version
+        coverPage.skipInternalVersionDlg()
+        commonScanPage=coverPage.clickImportButton(filename,CatalogsUtil.containsShadeLibs(acqIdentifiers),CatalogsUtil.pass30Days(filename))
+        test.verify(commonScanPage.isInScanView()==True,"ScanFlow is on scan step view, test data is imported.")
+        saveDesktopScreenshot(test_log_folder+"0_import_data.png")
+        
+        commonScanPage.clickConfigScan()
+        commonScanPage.addDenture()
     
-    commonScanPage=coverPage.clickImportButton(filename,CatalogsUtil.containsShadeLibs(acqIdentifiers),CatalogsUtil.pass30Days(filename))
-    test.verify(commonScanPage.isInScanView()==True,"ScanFlow is on scan step view, test data is imported.")
-    saveDesktopScreenshot(test_log_folder+"0_import_data.png")
+        commonRefinePage=commonScanPage.clickRefineButton(refine_type)
+        test.verify(commonRefinePage.isInRefineView()==True, "ScanFlow is on check step view, test data is refined.")
+        saveDesktopScreenshot(test_log_folder+"1_refine_data.png")
     
-    commonRefinePage=commonScanPage.clickRefineButton(refine_type)
-    test.verify(commonRefinePage.isInRefineView()==True, "ScanFlow is on check step view, test data is refined.")
-    saveDesktopScreenshot(test_log_folder+"1_refine_data.png")
+        exportDialog=commonRefinePage.clickExportButton()
+        exportDialog.selectSaveTabAndSaveAll()
+        saveDesktopScreenshot(test_log_folder+"2_export_save.png")
     
-    commonRefinePage.clickScanButton(0)
-    test.verify(commonRefinePage.isInRefineView()==True,"ScanFlow is on check step view, cancel discard refined data.")
-    saveDesktopScreenshot(test_log_folder+"3_canceldiscard_refined_data.png")
+        exportDialog.selectSendTabAndSend()
+        result=exportDialog.getResultOfSendToISConnect(ConfigUtil.getScanFlowLog())
+        test.verify(result=="Export-Send data is OK", "Export-Send data is OK")
+        #testSettings.logScreenshotOnFail = False
+        #testSettings.logScreenshotOnPass = False
+ 
+        test.verify(exitScanFlowNormally()==True, "ScanFlow exits normally.")
     
-    commonRefinePage.clickScanButton(1) #discard refined data
-    test.verify(commonScanPage.isInScanView()==True,"ScanFlow is on scan step view, discard refined data.")
-    saveDesktopScreenshot(test_log_folder+"4_discard_refined_data.png")
-    
-    commonScanPage.clickRefineButton(refine_type)
-    test.verify(commonRefinePage.isInRefineView()==True, "ScanFlow is on check step view, test data is refined.")
-    saveDesktopScreenshot(test_log_folder+"5_refine_data.png")
-    
-    exportDialog=commonRefinePage.clickExportButton()
-    exportDialog.selectSaveTabAndSaveAll()
-    saveDesktopScreenshot(test_log_folder+"6_export_save.png")
-    
-    exportDialog.selectSendTabAndSend()
-    result=exportDialog.getResultOfSendToISConnect(ConfigUtil.getScanFlowLog())
-    test.verify(result=="Export-Send data is OK", "Export-Send data is OK")
-    #testSettings.logScreenshotOnFail = False
-    #testSettings.logScreenshotOnPass = False
-    test.verify(exitScanFlowNormally()==True, "ScanFlow exits normally.")
-    #clickCloseButton()
+
     
 
 def test_before(test_log_folder,scanflow_log):
