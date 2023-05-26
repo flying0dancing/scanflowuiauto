@@ -59,7 +59,7 @@ class CoverPage():
         squish.snooze(3)
         self.cancelRecoverDataDlg()
         self.clickLaterOnSoftwareUpdateDialog()
-        squish.saveDesktopScreenshot(self.logfolder+"_acquisitionSelectionWindows.png")
+        #squish.saveDesktopScreenshot(self.logfolder+"_acquisitionSelectionWindows.png")
         if object.exists(locators.cover_button_import):
             test.log("click import button in cover page")
             squish.mouseClick(squish.waitForObject(locators.cover_button_import))

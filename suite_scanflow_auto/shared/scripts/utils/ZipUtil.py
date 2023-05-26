@@ -42,9 +42,12 @@ def extractFile(zipFile, extractName, unzipFolder=None):
     return os.path.join(unzipFolder,name)
 
 def existBiteCatalog(zipFile):
-    filePath=extractFile(zipFile, 'Version.ini')
+    unzipFolder=os.path.join(os.path.dirname(zipFile),'extracFiles_'+FileUtil.getFileName(zipFile)[0])
+    FileUtil.makedirs(unzipFolder)
+    filePath=extractFile(zipFile, 'Version.ini',unzipFolder)
     flag=FileUtil.existInFileContentByStr(filePath,'Bite',10)
     FileUtil.deleteFile(filePath)
+    FileUtil.deldirs(unzipFolder)
     return flag
     
 '''
@@ -82,6 +85,23 @@ def getRefsFromZipFile(zipFile,acqCatalogsDict):
                     acqIdentifiers.append(tmpName)
             #if 'Bite' in name and 'bite' not in acqIdentifiers:
                 #acqIdentifiers.append('bite')
+            if 'shadelibraries.bin' in name.lower():
+                acqIdentifiers.append('shade')
+        if existBiteCatalog(zipFile):
+            acqIdentifiers.append('bite')
+    test.log(str(acqIdentifiers)) 
+    return acqIdentifiers
+
+def getInitialRefsFromZipFile(zipFile):
+    acqIdentifiers=[]
+    zip_file=zipfile.ZipFile(zipFile)
+    if zipfile.is_zipfile(zipFile):
+        for name in zip_file.namelist():
+            #test.log(name)#Ref:bite/nobite,fullarch/onlylower/onlyupper,,,,,onlycommon/notonlycommon,shade/noshade
+            if 'multiviews_' in name.lower():
+                tmpName=name.replace('.bin','')
+                tmpName=tmpName.split('_')[1]
+                acqIdentifiers.append(tmpName)
             if 'shadelibraries.bin' in name.lower():
                 acqIdentifiers.append('shade')
         if existBiteCatalog(zipFile):

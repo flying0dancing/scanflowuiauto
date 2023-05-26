@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import os, shutil, csv,logging,re
-import json
+import shutil,logging
 import os.path
 import sys
 logger = logging.getLogger('utils.FileUtil')
@@ -51,7 +50,11 @@ def makedirs(fpath):
     if not isEmptyStr(fpath):
         if not fileExist(fpath):
             os.makedirs(fpath)
-
+def deldirs(fpath):
+    if not isEmptyStr(fpath):
+        if fileExist(fpath):
+            os.removedirs(fpath)
+            
 def getFileName(fname):
     basename=''
     if fileExist(fname):
@@ -131,7 +134,9 @@ def tail(filepath, n, block=-1024):
                     block *=2
             else:
                 if filesize==abs(block):
-                    return f.readlines()
+                    f.seek(0,0)
+                    s=f.readlines()
+                    return s
                 block=-filesize
 
     

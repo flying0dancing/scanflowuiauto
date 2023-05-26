@@ -33,7 +33,7 @@ def main():
         
     
 def importData(launchStr,filename,test_log_folder): 
-    acqIdentifiers=CatalogsUtil.getRefList(filename)
+    acqIns=CatalogsUtil.AcqCatalogs(filename)
     test.log(launchStr ) 
     #testSettings.logScreenshotOnFail = True
     #testSettings.logScreenshotOnPass = True
@@ -43,7 +43,7 @@ def importData(launchStr,filename,test_log_folder):
     #Click ok button on the warn message which says it's an internal version
     coverPage.skipInternalVersionDlg()
     
-    commonScanPage=coverPage.clickImportButton(filename,CatalogsUtil.containsShadeLibs(acqIdentifiers),CatalogsUtil.pass30Days(filename))
+    commonScanPage=coverPage.clickImportButton(filename,acqIns.get_shade(),acqIns.get_pass_30days())
     test.verify(commonScanPage.isInScanView()==True,"ScanFlow is on scan step view, test data is imported.")
     saveDesktopScreenshot(test_log_folder+"0_import_data.png")
     

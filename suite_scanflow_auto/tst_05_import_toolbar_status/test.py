@@ -6,7 +6,6 @@ import test
 @see: related smoke test cases
 
 '''
-
 #APPNAME = "scanflow \"C:\ProgramData\DEXIS IS\ScanFlow\inputdata.xml\""
 #filename = r'Orthodontics.cszx'
 #filename=r'common + bites + shadematch + preparation + IS 3800 [1.0.8.300][Res].cszx'
@@ -37,7 +36,7 @@ def main():
         
     
 def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_folder): 
-    acqIdentifiers=CatalogsUtil.getRefList(filename)
+    acqIns=CatalogsUtil.AcqCatalogs(filename)
     test.log(launchStr ) 
     #testSettings.logScreenshotOnFail = True
     #testSettings.logScreenshotOnPass = True
@@ -48,49 +47,50 @@ def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_f
     #Click ok button on the warn message which says it's an internal version
     coverPage.skipInternalVersionDlg()
     
-    commonScanPage=coverPage.clickImportButton(filename,CatalogsUtil.containsShadeLibs(acqIdentifiers),CatalogsUtil.pass30Days(filename))
-    refs=CatalogsUtil.setRefsString(acqIdentifiers)
-    scanRef=refs[0]
-    refineRef=refs[1]
+    commonScanPage=coverPage.clickImportButton(filename,acqIns.get_shade(),acqIns.get_pass_30days())
+    #scanRef=acqIns.get_scanRef()
+    #refineRef=acqIns.get_refineRef()
     test.verify(commonScanPage.isInScanView()==True,"ScanFlow is on scan step view, test data is imported.")
     saveDesktopScreenshot(test_log_folder+"0_import_data.png")
-    scanRefs=scanRef.lower().split(',')
-    refineRefs=refineRef.lower().split(',')
+    
+    #refineRefs=refineRef.lower().split(',')
     scanToolFile=ConfigUtil.getTools_Import_Scanview()#"tools.import.scanview.csv"
     scanImpressToolFile=ConfigUtil.getTools_Import_Scanview_Impress()#"tools.import.scanview_impress.csv"
     refineToolFile=ConfigUtil.getTools_Import_Refineview()#"tools.import.refineview.csv"
     
+    
+    
     if commonScanPage.clickPreparation():
         saveDesktopScreenshot(test_log_folder+"1_scanview_preparation.png")  
-        verify_tool_status(scanToolFile,"Preparation Scan",scanRefs)    
+        verify_tool_status(scanToolFile,"Preparation Scan",acqIns.get_scanRefList())    
         
-    verifyImplantWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,scanRefs) 
+    verifyImplantWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,acqIns) 
     
-    verifyDentureWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,scanRefs)
-        
-    verifyCommonScanInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,scanRefs)
+    verifyDentureWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,acqIns)
+    
+    verifyCommonScanInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,acqIns)    
     
     commonRefinePage=commonScanPage.clickRefineButton(refine_type.lower())
     test.verify(commonRefinePage.isInRefineView()==True, "ScanFlow is on check step view, test data is refined.")
     saveDesktopScreenshot(test_log_folder+"2_refine_data.png")
     
     if commonRefinePage.clickScanBody():
-        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Scanbody Scan",refineRefs,test_log_folder+"2_refineview_scanBody.png")
+        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Scanbody Scan",acqIns,test_log_folder+"2_refineview_scanBody.png")
         
     if commonRefinePage.clickEmergencyProfile():
-        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Emergence Profile Scan",refineRefs,test_log_folder+"2_refineview_emergenceProfile.png")
+        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Emergence Profile Scan",acqIns,test_log_folder+"2_refineview_emergenceProfile.png")
     
     if commonRefinePage.clickDenture():
-        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Denture Scan",refineRefs,test_log_folder+"2_refineview_denture.png")
+        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Denture Scan",acqIns,test_log_folder+"2_refineview_denture.png")
         
     if commonRefinePage.clickEdentulous():
-        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Edentulous Scan",refineRefs,test_log_folder+"2_refineview_edentulous.png")
+        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Edentulous Scan",acqIns,test_log_folder+"2_refineview_edentulous.png")
         
     if commonRefinePage.clickPreparation():
-        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Preparation Scan",refineRefs,test_log_folder+"2_refineview_preparation.png")
+        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Preparation Scan",acqIns,test_log_folder+"2_refineview_preparation.png")
         
     if commonRefinePage.clickCommonScan():
-        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Common Scan",refineRefs,test_log_folder+"2_refineview_common.png")
+        verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,"Common Scan",acqIns,test_log_folder+"2_refineview_common.png")
         
 
     commonRefinePage.clickCloseButton()
@@ -121,7 +121,6 @@ def removeItemInList(rangeList,removeItems):
             if (isinstance(removeItems,list) and item in removeItems) or item == removeItems:
                 rangeList.remove(item) 
             
-    return rangeList
 
 def addItemInList(rangeList,addItem):
     if rangeList:
@@ -129,78 +128,118 @@ def addItemInList(rangeList,addItem):
             rangeList.append(addItem)
     else:
         rangeList.append(addItem)  
-    return rangeList
 
-def verifyImplantWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,scanRefs):
+
+def verifyImplantWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,acqIns):
     impressStr='impress'
     noImpressStr='noimpress'
+    scanRefs=acqIns.get_scanRefList()
     if commonScanPage.clickScanBody():
-        saveDesktopScreenshot(test_log_folder+"1_scanview_scanBody.png")  
+        if acqIns.get_scanbody_upper():
+            removeItemInList(scanRefs, 'nodata')
+            addItemInList(scanRefs, 'data')
+        else:
+            removeItemInList(scanRefs, 'data')
+            addItemInList(scanRefs, 'nodata')
+        saveDesktopScreenshot(test_log_folder+"1_scanview_scanBody.png")
+        test.log(','.join(scanRefs))
         verify_tool_status(scanToolFile,"Scanbody Scan",scanRefs)
         
     if commonScanPage.clickEmergencyProfileImpress():
         saveDesktopScreenshot(test_log_folder+"1_scanview_emergenceProfile_impress.png")  
         verify_tool_status(scanImpressToolFile,"Emergence Profile Scan-Impress",scanRefs)
-        scanRefs=removeItemInList(scanRefs, noImpressStr)
-        scanRefs=addItemInList(scanRefs, impressStr)  
+        removeItemInList(scanRefs, noImpressStr)
+        addItemInList(scanRefs, impressStr)  
     else:
-        scanRefs=removeItemInList(scanRefs, impressStr)
-        scanRefs=addItemInList(scanRefs, noImpressStr)
+        removeItemInList(scanRefs, impressStr)
+        addItemInList(scanRefs, noImpressStr)
       
     #click Emergency Profile
     if commonScanPage.clickEmergencyProfile():
-        saveDesktopScreenshot(test_log_folder+"1_scanview_emergenceProfile.png")  
+        if acqIns.get_emergenceProfile_upper():
+            removeItemInList(scanRefs, 'nodata')
+            addItemInList(scanRefs, 'data')
+        else:
+            removeItemInList(scanRefs, 'data')
+            addItemInList(scanRefs, 'nodata')
+        saveDesktopScreenshot(test_log_folder+"1_scanview_emergenceProfile.png")
+        test.log(','.join(scanRefs))
         verify_tool_status(scanToolFile,"Emergence Profile Scan",scanRefs)
     
         
-def verifyDentureWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,scanRefs):
+def verifyDentureWorkflowInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,acqIns):
     impressStr='impress'
     noImpressStr='noimpress'
+    scanRefs=acqIns.get_scanRefList()
     if commonScanPage.clickEdentulousImpress():
         saveDesktopScreenshot(test_log_folder+"1_scanview_edentulous_impress.png")  
         verify_tool_status(scanImpressToolFile,"Edentulous Scan-Impress",scanRefs)
-        scanRefs=removeItemInList(scanRefs, noImpressStr)
-        scanRefs=addItemInList(scanRefs, impressStr)  
+        removeItemInList(scanRefs, noImpressStr)
+        addItemInList(scanRefs, impressStr)  
     else:
-        scanRefs=removeItemInList(scanRefs, impressStr)
-        scanRefs=addItemInList(scanRefs, noImpressStr)
+        removeItemInList(scanRefs, impressStr)
+        addItemInList(scanRefs, noImpressStr)
         
     if commonScanPage.clickEdentulous():
-        saveDesktopScreenshot(test_log_folder+"1_scanview_edentulous.png")  
+        if acqIns.get_edentulous_upper():
+            removeItemInList(scanRefs, 'nodata')
+            addItemInList(scanRefs, 'data')
+        else:
+            removeItemInList(scanRefs, 'data')
+            addItemInList(scanRefs, 'nodata')
+        saveDesktopScreenshot(test_log_folder+"1_scanview_edentulous.png")
+        test.log(','.join(scanRefs))
         verify_tool_status(scanToolFile,"Edentulous Scan",scanRefs)
         
     if commonScanPage.clickDenture():
-        saveDesktopScreenshot(test_log_folder+"1_scanview_denture.png")  
+        if acqIns.get_denture_upper():
+            removeItemInList(scanRefs, 'nodata')
+            addItemInList(scanRefs, 'data')
+        else:
+            removeItemInList(scanRefs, 'data')
+            addItemInList(scanRefs, 'nodata')
+        saveDesktopScreenshot(test_log_folder+"1_scanview_denture.png") 
+        test.log(','.join(scanRefs))
         verify_tool_status(scanToolFile,"Denture Scan",scanRefs)
         
-def verifyCommonScanInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,scanRefs):
+def verifyCommonScanInScanView(commonScanPage,test_log_folder,scanToolFile,scanImpressToolFile,acqIns):
     impressStr='impress'
     noImpressStr='noimpress'
+    scanRefs=acqIns.get_scanRefList()
     if commonScanPage.clickCommonImpress():
-        saveDesktopScreenshot(test_log_folder+"1_scanview_common_impress.png")  
+        saveDesktopScreenshot(test_log_folder+"1_scanview_common_impress.png") 
+        test.log(','.join(scanRefs)) 
         verify_tool_status(scanImpressToolFile,"Common Scan-Impress",scanRefs)
-        scanRefs=removeItemInList(scanRefs, noImpressStr)
-        scanRefs=addItemInList(scanRefs, impressStr)  
+        removeItemInList(scanRefs, noImpressStr)
+        addItemInList(scanRefs, impressStr)  
     else:
-        scanRefs=removeItemInList(scanRefs, impressStr)
-        scanRefs=addItemInList(scanRefs, noImpressStr)
-    test.log(','.join(scanRefs))    
+        removeItemInList(scanRefs, impressStr)
+        addItemInList(scanRefs, noImpressStr)
+        
     if commonScanPage.clickCommonScan():
-        saveDesktopScreenshot(test_log_folder+"1_scanview_commonScan.png")  
+        if acqIns.get_common_upper():
+            removeItemInList(scanRefs, 'nodata')
+            addItemInList(scanRefs, 'data')
+        else:
+            removeItemInList(scanRefs, 'data')
+            addItemInList(scanRefs, 'nodata')
+        saveDesktopScreenshot(test_log_folder+"1_scanview_commonScan.png") 
+        test.log(','.join(scanRefs)) 
         verify_tool_status(scanToolFile,"Common Scan",scanRefs)
 
-def verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,CatalogStr,refineRefs,test_log_fullname):
+def verifyWorkflowAfterRefine(commonRefinePage,refineToolFile,CatalogStr,acqIns,test_log_fullname):
     onlyLower="onlylower"
     onlyUpper="onlyupper"
     fullarch="fullarch"
-    refineRefs=removeItemInList(refineRefs, [onlyLower,onlyUpper,fullarch])
+    refineRefs=acqIns.get_refineRefList()
+    removeItemInList(refineRefs, [onlyLower,onlyUpper,fullarch])
     if commonRefinePage.getStatusUpperJaw()==True:
         if commonRefinePage.getStatusLowerJaw()==True:
-            refineRefs=addItemInList(refineRefs, fullarch)
+            addItemInList(refineRefs, fullarch)
         else:
-            refineRefs=addItemInList(refineRefs, onlyUpper)
+            addItemInList(refineRefs, onlyUpper)
     else:
-        refineRefs=addItemInList(refineRefs, onlyLower) 
+        addItemInList(refineRefs, onlyLower) 
     saveDesktopScreenshot(test_log_fullname)  
     test.log(','.join(refineRefs))  
     verify_tool_status(refineToolFile,CatalogStr,refineRefs)
