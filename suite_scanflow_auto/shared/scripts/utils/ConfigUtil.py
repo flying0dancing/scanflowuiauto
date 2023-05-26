@@ -15,11 +15,27 @@ def getScanFlowVersion():
 
 def getTestDataPool():
     config=getConfig()
-    return config['test']['test_source_path']
+    if config['test']['test_mode']=='debug':
+        tmp=config['test.debug']['test_source_path']
+    else:
+        tmp=config['test.release']['test_source_path']
+    return tmp
 
 def getTestConfigPool():
     config=getConfig()
-    return config['test']['test_config_path']
+    if config['test']['test_mode']=='debug':
+        tmp=config['test.debug']['test_config_path']
+    else:
+        tmp=config['test.release']['test_config_path']
+    return tmp
+
+def getTestLogFolder():
+    config=getConfig()
+    if config['test']['test_mode']=='debug':
+        tmp=config['test.debug']['test_log_path']
+    else:
+        tmp=config['test.release']['test_log_path']
+    return tmp
 
 def getTestMode():
     config=getConfig()
@@ -40,9 +56,7 @@ def getScanFlowLaunchStrByCmd():
     config=getConfig()
     return config['product']['ScanFlow_Launch_CmdLine']
 
-def getTestLogFolder():
-    config=getConfig()
-    return config['test']['test_log_path']
+
 
 def getTools_Import_Scanview():
     config=getConfig()
@@ -63,7 +77,7 @@ def getTestConfig(testName,suffix):
     if config['test']['test_mode']=='debug':
         tconfig='inputdata.tsv'
     else:
-        tconfig=config['test']['test_config_path']+testName+suffix
+        tconfig=config['test.release']['test_config_path']+testName+suffix
     return tconfig
 if __name__=='__main__':
     #print(str(sys.argv))

@@ -32,7 +32,7 @@ class BasePage():
         test.log("click exit button on Exit Dialog")
         squish.snooze(1)
         squish.mouseClick(squish.waitForObject(locators.exitDlg_exit_button))
-        squish.snooze(10)
+        squish.snooze(15)
 
     def getStatusScanStep(self):
         prop_value=squish.waitForObject(locators.stepBar_scan).checked
