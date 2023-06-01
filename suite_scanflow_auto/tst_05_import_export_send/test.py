@@ -35,7 +35,8 @@ def main():
         
     
 def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_folder): 
-    acqIns=CatalogsUtil.AcqCatalogs(filename)
+    acqIns=CatalogsUtil.AcqCatalogs()
+    acqIns.initialSets(filename)
     test.log(launchStr ) 
     #testSettings.logScreenshotOnFail = True
     #testSettings.logScreenshotOnPass = True

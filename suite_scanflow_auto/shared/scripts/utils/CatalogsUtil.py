@@ -14,8 +14,9 @@ def acqCatalogsDict():
         return acqDict
 '''
 class AcqCatalogs():
-    #__acqIdentifiers
-    __file_name=''
+    '''
+    __acqIdentifiers=None
+    __file_name=None
     __pass_30days=False
     __common_upper=False
     __common_lower=False
@@ -32,14 +33,38 @@ class AcqCatalogs():
     __denture_upper=False
     __extra=False
     __shade=False
-    
-    
-    __scanRefList=[]
-    __refineRefList=[]
-    
-    def __init__(self,zipFile):
-        acqIdentifiers=ZipUtil.getInitialRefsFromZipFile(zipFile)
+    __scanRefList=None
+    __refineRefList=None
+    '''
+    def __init__(self):
+        self.__acqIdentifiers=[]
+        self.__file_name=''
+        self.__pass_30days=False
+        self.__common_upper=False
+        self.__common_lower=False
+        self.__common_bite=False
+        self.__scanbody_upper=False
+        self.__scanbody_lower=False
+        self.__emergenceProfile_upper=False
+        self.__emergenceProfile_lower=False
+        self.__preparation_lower=False
+        self.__preparation_upper=False
+        self.__edentulous_lower=False
+        self.__edentulous_upper=False
+        self.__denture_lower=False
+        self.__denture_upper=False
+        self.__extra=False
+        self.__shade=False
+        self.__scanRefList=[]
+        self.__refineRefList=[]
         
+    def initialSets(self,zipFile):
+        self.set_file_name(zipFile)
+        self.set_pass_30days(zipFile)
+        self.set_acqIdentifiers(zipFile)
+        acqIdentifiers=self.get_acqIdentifiers()
+        if acqIdentifiers==None or len(acqIdentifiers)==0:
+            return
         if '0' in acqIdentifiers:
             self.set_common_lower(True)
         if '1' in acqIdentifiers:
@@ -68,11 +93,17 @@ class AcqCatalogs():
             self.set_extra(True)
         if 'shade' in acqIdentifiers:
             self.set_shade(True)
-        self.set_file_name(zipFile)
-        self.set_common_bite(acqIdentifiers)
-        self.set_pass_30days(zipFile)
-        self.set_RefList(acqIdentifiers)
         
+        self.set_common_bite(acqIdentifiers)
+        
+        self.set_RefList(acqIdentifiers)
+       
+    
+    def set_acqIdentifiers(self,zipFile):
+        self.__acqIdentifiers=ZipUtil.getInitialRefsFromZipFile(zipFile)
+    def get_acqIdentifiers(self):
+        return self.__acqIdentifiers
+     
     def set_file_name(self,file_name):
         self.__file_name=file_name
     def get_file_name(self):
@@ -176,6 +207,8 @@ class AcqCatalogs():
         return refStr
     def set_common_bite(self,acqIdentifiers):
         self.__common_bite=False
+        if len(acqIdentifiers)==0:
+            return
         if 'bite' in acqIdentifiers:
             self.__common_bite=True
         else:
@@ -189,7 +222,9 @@ class AcqCatalogs():
         return self.__common_bite
    
     def set_RefList(self,acqIdentifiers):
-        #self.__scanRefList.append('data')
+        if len(acqIdentifiers)==0:
+            return
+        self.__scanRefList.append('data')
         if '0' in acqIdentifiers:
             if '1' in acqIdentifiers:
                 if self.get_common_bite():
@@ -205,12 +240,12 @@ class AcqCatalogs():
             if '1' in acqIdentifiers:
                 self.__scanRefList.append('onlyupper')
                 self.__refineRefList.append('onlyupper')
-            #else:
-                #self.__scanRefList.remove('data')
-                #self.__scanRefList.append('nodata')
+            else:
+                self.__scanRefList.remove('data')
+                self.__scanRefList.append('nodata')
             #common doesn't contains data, maybe only edentulous
     
-        if self.get_common_bite():
+        if 'bite' in acqIdentifiers:
             self.__scanRefList.append('bite')
             self.__refineRefList.append('bite')
         else:
@@ -236,6 +271,19 @@ class AcqCatalogs():
     def get_refineRefList(self):
         return self.__refineRefList
     
-   
-
+    def setFuncToTrue(self,configScan_common,func_set_upper,func_set_lower):
+        if configScan_common:
+            configScan_common_Lst=configScan_common.split(',')
+            if len(configScan_common_Lst)>0:
+                for jaw in configScan_common_Lst:
+                    if jaw and 'upper' in jaw.lower():
+                        if hasattr(self,func_set_upper):
+                            getattr(self,func_set_upper)(True)
+                    if jaw and 'lower' in jaw.lower():
+                        if hasattr(self,func_set_lower):
+                            getattr(self,func_set_lower)(True)
+    def getFuncValue(self,func_name):
+        if hasattr(self,func_name):
+            return getattr(self,func_name)()
+        return None
 

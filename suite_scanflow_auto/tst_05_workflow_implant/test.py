@@ -34,7 +34,8 @@ def main():
         test_after(testname,test_log_folder,scanflow_log)
         
 def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_folder): 
-    acqIns=CatalogsUtil.AcqCatalogs(filename)
+    acqIns=CatalogsUtil.AcqCatalogs()
+    acqIns.initialSets(filename)
     if acqIns.containsOtherWorkflows():
         test.fail("import cszx file contains other workflows")
     else:

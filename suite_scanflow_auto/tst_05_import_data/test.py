@@ -33,7 +33,8 @@ def main():
         
     
 def importData(launchStr,filename,test_log_folder): 
-    acqIns=CatalogsUtil.AcqCatalogs(filename)
+    acqIns=CatalogsUtil.AcqCatalogs()
+    acqIns.initialSets(filename)
     test.log(launchStr ) 
     #testSettings.logScreenshotOnFail = True
     #testSettings.logScreenshotOnPass = True

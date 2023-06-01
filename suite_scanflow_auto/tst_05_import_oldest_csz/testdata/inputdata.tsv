@@ -1,0 +1,3 @@
+"testName"	"cszxName"	"refineType"	"skipFlag"	"configScan.common"	"configScan.emergenceProfile"	"configScan.scanbody"	"configScan.edentulous"	"configScan.denture"	"configScan.preparation"
+"1"	"upper+lower+bites+emergency+scanbody.cszx"	"high"	""	"upper,lower"	"upper,lower"	"upper,lower"	""	""	""
+"2"	"upper+lower+bite+shade.cszx"	"low"	"Y"	""	""	""	""	""	""

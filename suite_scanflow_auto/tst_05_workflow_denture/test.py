@@ -34,7 +34,8 @@ def main():
         
 def importData_refine_export_save_send(launchStr,filename,refine_type,test_log_folder): 
     #verify here is only common jaws.
-    acqIns=CatalogsUtil.AcqCatalogs(filename)
+    acqIns=CatalogsUtil.AcqCatalogs()
+    acqIns.initialSets(filename)
     if acqIns.containsOtherWorkflows():
         test.fail("import cszx file contains other workflows")
     else:
