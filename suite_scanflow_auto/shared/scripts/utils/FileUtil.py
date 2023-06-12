@@ -173,6 +173,36 @@ def defaultEmpty(str):
         str=""
     return str
 
+    
+def getParentFolder(filePath):
+    parentFolder=os.path.dirname(os.path.abspath(filePath))#__file__
+    basename=os.path.basename(parentFolder)
+    return basename
+
+def deleteFiles(files):
+    for srcfile in files:
+        logger.debug("delete file %s" % (srcfile))
+        os.remove(srcfile)
+        
+
+def revFiles(path,keywordsList,fileTypes=['.stl','.ply'],archiveFiles=[]):
+    for folderName, subfolders, filenames in os.walk(path):
+        for filename in filenames:
+            flag=True
+            for keyword in keywordsList:
+                #print("keyword: "+keyword)
+                if keyword not in filename:
+                    #print("keyword  %s not in subfolder %s" % (keyword, subfolder))
+                    flag = False
+                    break
+            if flag==True:
+                suffix=os.path.splitext(filename)[1]
+                if suffix in fileTypes:
+                    archiveFiles.append(os.path.join(folderName,filename)) 
+        
+        
+                        
+
 if __name__=='__main__':
     #print(str(sys.argv))
     #inputfile=r'C:\ProgramData\TW\AcqAltair\log\acqaltair_20220712.csv'
@@ -181,8 +211,3 @@ if __name__=='__main__':
     #print(tail(inputfile, 30))
     flag=existInFileContentByStr(inputfile, 'Save Scan Data, the result is OK.',300)
     print(flag)
-    
-def getParentFolder(filePath):
-    parentFolder=os.path.dirname(os.path.abspath(filePath))#__file__
-    basename=os.path.basename(parentFolder)
-    return basename

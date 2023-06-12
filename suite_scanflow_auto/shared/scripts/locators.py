@@ -7,7 +7,7 @@ base_notice_title=names.hardware_Support_StyleLabel #Hardware Support dialog
 base_notice_ok=names.buttons_ListView #import file 30 days ago dialog, Shade Matching dialog
 base_notice_cancel=names.buttons_Cancel_DialogButton
 base_waiting_progress=names.busyDialog_ContentItem # import data loading progress, export waiting progress
-
+base_notice_space_notEnough=names.not_enough_free_disk_space_on_system_drive_Free_up_disk_space_and_try_again_StyleLabel
 #titleBar
 titleBar_close=names.titleBar_closeButton_Button
 titleBar_menu=names.titleBar_menuButton_Button

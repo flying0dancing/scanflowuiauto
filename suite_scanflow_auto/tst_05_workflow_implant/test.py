@@ -14,6 +14,7 @@ from pages.CoverPage import CoverPage
 
 def main():
     source(findFile("scripts","Common.py"))
+    cleanPCSpace(ConfigUtil.getScanFlowTempFolder(),[],['.dcm','.xml'])
     get_free_space_mb(ConfigUtil.getScanFlowRoot())
     launchStr=ConfigUtil.getScanFlowLaunchStrByCmd()
     tName=FileUtil.getParentFolder(__file__)
@@ -26,7 +27,7 @@ def main():
         skipFlag=testData.field(record,"skipFlag")
         if skipFlag.lower()=='y':
             continue
-        test.log("%s %s" % (filename, refine_type))
+        test.log("test name: %s file: %s refine with: %s" % (testname, filename, refine_type))
         test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+tName+'\\'+testname+'\\'
         scanflow_log=ConfigUtil.getScanFlowLog()
         test_before(test_log_folder,scanflow_log)

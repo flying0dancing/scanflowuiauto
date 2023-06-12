@@ -79,8 +79,7 @@ class CommonScanPage(BasePage):
             squish.snooze(20)
             test.log("Wait for another 20s")
         self.waitingProgress(10)
-        squish.snooze(1)
-
+        squish.snooze(5)
         test.log("Refinement is done")
 
     def isInScanView(self):

@@ -5,6 +5,7 @@ import os
 import sys 
 import platform
 from pages.LeftBarTool import LeftBarTool 
+from utils import FileUtil
 
 leftBarTool=LeftBarTool()
 
@@ -12,12 +13,20 @@ def get_free_space_mb(folerpath):
     if platform.system() == 'Windows':
         free_bytes=ctypes.c_ulonglong(0)
         ctypes.windll.kernel32.GetDiskFreeSpaceExW(ctypes.c_wchar_p(folerpath),None,None,ctypes.pointer(free_bytes))
-        test.log(str(round(free_bytes.value/1024/1024/1024*100,2))+"MB")
-        return round(free_bytes.value/1024/1024/1024*100,2)
+        test.log(str(round(free_bytes.value/1024/1024/1024,2))+"GB")
+        return round(free_bytes.value/1024/1024/1024,2)
     else:
         st=os.statvfs('/')
         free_size=st.f_bsize * st.f_bavail/1024/1024
         return round(free_size*100,2)
+    
+    
+def cleanPCSpace(cleanFolder,keywordsList,fileTypes=['.dcm'],):
+    files=[]
+    FileUtil.revFiles(cleanFolder,keywordsList,fileTypes,files)
+    FileUtil.deleteFiles(files)
+    
+    
     
 def exitScanFlowNormally():
     scanflow_log=ConfigUtil.getScanFlowLog()      

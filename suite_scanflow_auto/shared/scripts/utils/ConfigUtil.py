@@ -56,7 +56,9 @@ def getScanFlowLaunchStrByCmd():
     config=getConfig()
     return config['product']['ScanFlow_Launch_CmdLine']
 
-
+def getScanFlowTempFolder():
+    config=getConfig()
+    return config['product']['ScanFlow_Temp_folder']
 
 def getTools_Import_Scanview():
     config=getConfig()

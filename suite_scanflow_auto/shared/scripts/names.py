@@ -687,6 +687,7 @@ this_functionality_is_available_only_for_Premium_users_StyleLabel = {"container"
 later_DialogButtonWithTheme = {"checkable": False, "container": mainWindow_PremiumIntroductionDialog, "text": "Later", "type": "DialogButtonWithTheme", "unnamed": 1, "visible": True}
 upgrade_DialogButton_2 = {"checkable": False, "container": mainWindow_PremiumIntroductionDialog, "text": "Upgrade", "type": "DialogButton", "unnamed": 1, "visible": True}
 please_upgrade_to_use_this_feature_StyleLabel = {"container": mainWindow_PremiumIntroductionDialog, "text": "Please upgrade to use this feature.", "type": "StyleLabel", "unnamed": 1, "visible": True}
+not_enough_free_disk_space_on_system_drive_Free_up_disk_space_and_try_again_StyleLabel = {"container": o_QmlWidget, "text": "Not enough free disk space on system drive. Free up disk space and try again.", "type": "StyleLabel", "unnamed": 1, "visible": True}
 
 
 

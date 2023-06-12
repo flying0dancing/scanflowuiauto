@@ -10,6 +10,8 @@ def main():
     source(findFile("scripts", "common.py"))
     #test.log(os.environ["SQUISH_PREFIX"])
     tName=FileUtil.getParentFolder(__file__)
+    cleanPCSpace(ConfigUtil.getScanFlowTempFolder(),[],['.dcm','.xml'])
+    get_free_space_mb(ConfigUtil.getScanFlowRoot())
     test.log(tName)
     test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+tName+'\\'
     scanflow_log=ConfigUtil.getScanFlowLog()

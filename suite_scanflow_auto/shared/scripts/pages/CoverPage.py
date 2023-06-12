@@ -16,6 +16,11 @@ class CoverPage():
         #Click ok button on the warn message which says it's an internal version
         squish.snooze(3)
         #test.log(locators.cover_internal_ok)
+        if object.exists(locators.base_notice_space_notEnough):
+            test.log("Not enough free disk space on system drive. Free up disk space and try again.")
+            squish.mouseClick(squish.waitForObject(locators.cover_internal_ok))
+            squish.snooze(3)
+            raise Exception('Not enough free disk space on system drive. Free up disk space and try again.')
         if object.exists(locators.cover_internal_ok):
             test.log("Application Under Testing is an internal version")
             squish.mouseClick(squish.waitForObject(locators.cover_internal_ok))
@@ -35,7 +40,7 @@ class CoverPage():
     '''
     @see: click import and import the scan data into software.
     @param filename: a full name(with path) of cszx file 
-    '''
+    
     @DeprecationWarning
     def clickImportButton(self,filename):
         squish.snooze(3)
@@ -49,7 +54,7 @@ class CoverPage():
         squish.saveDesktopScreenshot(self.logfolder+"_importDialog.png")
         self.importData(filename)
         return CommonScanPage(self.logfolder)
-        
+    '''    
     
     '''
     @see: click import and import the scan data into software.
@@ -64,6 +69,7 @@ class CoverPage():
             test.log("click import button in cover page")
             squish.mouseClick(squish.waitForObject(locators.cover_button_import))
         test.log("for check running it about 4minutes on windows 11")
+        squish.snooze(2)
         squish.saveDesktopScreenshot(self.logfolder+"_importDialog.png")
         self.importData(filename,shade_flag,passdays_flag)
         return CommonScanPage(self.logfolder)
