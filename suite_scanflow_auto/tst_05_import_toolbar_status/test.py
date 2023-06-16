@@ -12,13 +12,11 @@ import test
 
 def main():
     source(findFile("scripts","Common.py"))
-    
-    cleanPCSpace(ConfigUtil.getScanFlowTempFolder(),[],['.dcm','.xml'])
-    get_free_space_mb(ConfigUtil.getScanFlowRoot())
     launchStr=ConfigUtil.getScanFlowLaunchStrByCmd()
     tName=FileUtil.getParentFolder(__file__)
     test.log(tName)
     for record in testData.dataset(ConfigUtil.getTestConfig(tName,'.tsv')):
+        
         testname=testData.field(record, "testName")
         filename=testData.field(record, "cszxName")
         filename=ConfigUtil.getTestDataPool()+filename
@@ -27,6 +25,8 @@ def main():
         #refineRef=testData.field(record,"refineRef")
         skipFlag=testData.field(record,"skipFlag")
         if skipFlag.lower() in ['n','']:
+            cleanPCSpace(ConfigUtil.getScanFlowTempFolder(),[],['.dcm','.xml'])
+            get_free_space_mb(ConfigUtil.getScanFlowRoot())
             test.log("test name: %s file: %s refine with: %s" % (testname, filename, refine_type))
             test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+tName+'\\'+testname+'\\'
             scanflow_log=ConfigUtil.getScanFlowLog()
