@@ -12,19 +12,21 @@ from pages.CoverPage import CoverPage
 
 def main():
     source(findFile("scripts","Common.py"))
-    cleanPCSpace(ConfigUtil.getScanFlowTempFolder(),[],['.dcm','.xml'])
-    get_free_space_mb(ConfigUtil.getScanFlowRoot())
+    
     launchStr=ConfigUtil.getScanFlowLaunchStrByCmd()
     tName=FileUtil.getParentFolder(__file__)
     test.log(tName)
     for record in testData.dataset(ConfigUtil.getTestConfig(tName,'.tsv')):
+        skipFlag=testData.field(record,"skipFlag")
+        if skipFlag.lower()=='y':
+            continue
+        cleanPCSpace(ConfigUtil.getScanFlowTempFolder(),[],['.dcm','.xml'])
+        get_free_space_mb(ConfigUtil.getScanFlowRoot())
         testname=testData.field(record, "testName")
         filename=testData.field(record, "cszxName")
         filename=ConfigUtil.getTestDataPool()+filename
         #refine_type=testData.field(record,"refineType")
-        skipFlag=testData.field(record,"skipFlag")
-        if skipFlag.lower()=='y':
-            continue
+        
         test.log("test name: %s file: %s" % (testname, filename))
         test_log_folder=ConfigUtil.getTestLogFolder()+DateTimeUtil.get_dateYYYMMDD()+'\\'+tName+'\\'+testname+'\\'
         scanflow_log=ConfigUtil.getScanFlowLog()
