@@ -68,10 +68,11 @@ class CoverPage():
         if object.exists(locators.cover_button_import):
             test.log("click import button in cover page")
             squish.mouseClick(squish.waitForObject(locators.cover_button_import))
-        test.log("for check running it about 4minutes on windows 11")
-        squish.snooze(2)
-        squish.saveDesktopScreenshot(self.logfolder+"_importDialog.png")
-        self.importData(filename,shade_flag,passdays_flag)
+        #test.log("for check running it about 4minutes on windows 11")
+        squish.snooze(3)
+        if object.exists(locators.importDlg_open):
+            squish.saveDesktopScreenshot(self.logfolder+"_importDialog.png")
+            self.importData(filename,shade_flag,passdays_flag)
         return CommonScanPage(self.logfolder)
 
     def clickIOCameraButton(self):
